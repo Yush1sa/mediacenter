@@ -157,14 +157,6 @@ public class MainController {
         return model.filterByType(InformationWorker.class);
     }
 
-    public List<MediaWorker> filterByAge(int min, int max) {
-        return model.filterByAge(min, max);
-    }
-
-    public List<MediaWorker> filterByExperience(int min) {
-        return model.filterByExperience(min);
-    }
-
     public void applyFilter(List<MediaWorker> result) {
         view.getTableModel().setData(result);
         view.setStatus("Фильтр применён. Найдено: " + result.size());

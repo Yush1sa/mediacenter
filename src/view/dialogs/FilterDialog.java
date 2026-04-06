@@ -24,7 +24,6 @@ public class FilterDialog extends JDialog {
     private void initComponents() {
         JTabbedPane tabs = new JTabbedPane();
         tabs.addTab("Тип", buildTypePanel());
-        tabs.addTab("Возраст и Стаж", buildNumericPanel());
         add(tabs, BorderLayout.CENTER);
 
         JButton resetBtn = new JButton("Показать всех");
@@ -68,55 +67,6 @@ public class FilterDialog extends JDialog {
         p.add(btnPhoto);
         p.add(btnVideo);
         p.add(btnInfo);
-        return p;
-    }
-
-    private JPanel buildNumericPanel() {
-        JPanel p = new JPanel(new GridLayout(3, 1, 10, 10));
-        p.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        JPanel ageRow = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        final JTextField minAge = new JTextField("0", 3);
-        final JTextField maxAge = new JTextField("100", 3);
-        JButton ageBtn = new JButton("Фильтр по возрасту");
-        ageRow.add(new JLabel("От:"));
-        ageRow.add(minAge);
-        ageRow.add(new JLabel("До:"));
-        ageRow.add(maxAge);
-        ageRow.add(ageBtn);
-        ageBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    int min = Integer.parseInt(minAge.getText().trim());
-                    int max = Integer.parseInt(maxAge.getText().trim());
-                    applyAndClose(controller.filterByAge(min, max));
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(FilterDialog.this, "Введите числа!");
-                }
-            }
-        });
-
-        JPanel expRow = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        final JTextField expField = new JTextField("0", 3);
-        JButton expBtn = new JButton("Фильтр по стажу");
-        expRow.add(new JLabel("Мин. стаж:"));
-        expRow.add(expField);
-        expRow.add(expBtn);
-        expBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    int minExp = Integer.parseInt(expField.getText().trim());
-                    applyAndClose(controller.filterByExperience(minExp));
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(FilterDialog.this, "Введите число!");
-                }
-            }
-        });
-
-        p.add(ageRow);
-        p.add(expRow);
         return p;
     }
 
