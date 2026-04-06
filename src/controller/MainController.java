@@ -7,6 +7,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +30,6 @@ public class MainController {
         refreshTable();
         bindEvents();
     }
-
-    // ─── методы для диалогов добавления ───────────────────────────────────────
 
     public void addPhotographer(String name, int age, int exp, String style) {
         model.add(new Photographer(name, age, exp, style));
@@ -55,7 +54,6 @@ public class MainController {
         view.setStatus("Добавлен: " + name);
     }
 
-    // ─── методы для GiveWorkDialog ────────────────────────────────────────────
 
     public String getWorkerDisplayName(int row) {
         MediaWorker w = getWorkerAt(row);
@@ -89,8 +87,6 @@ public class MainController {
     public String giveCamera(int row) {
         return ((InformationWorker) getWorkerAt(row)).giveCamera();
     }
-
-    // ─── методы для EditWorkerDialog ──────────────────────────────────────────
 
     public String getWorkerName(int row) {
         return getWorkerAt(row).getName();
@@ -145,8 +141,6 @@ public class MainController {
         view.setStatus("Изменён: " + name);
     }
 
-    // ─── методы для FilterDialog ──────────────────────────────────────────────
-
     public List<MediaWorker> getAllWorkers() {
         return model.getWorkers();
     }
@@ -176,34 +170,32 @@ public class MainController {
         view.setStatus("Фильтр применён. Найдено: " + result.size());
     }
 
-    // ─── внутренние методы ────────────────────────────────────────────────────
-
     private void bindEvents() {
 
         view.onAddPhotographer(new ActionListener() {
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 view.openAddPhotographerDialog();
             }
         });
 
         view.onAddVideographer(new ActionListener() {
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 view.openAddVideographerDialog();
             }
         });
 
         view.onAddInfoWorker(new ActionListener() {
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 view.openAddInfoWorkerDialog();
             }
         });
 
         view.onEdit(new ActionListener() {
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 int row = view.getSelectedRow();
                 if (row != -1) {
                     view.openEditDialog(row);
@@ -213,22 +205,14 @@ public class MainController {
 
         view.onDelete(new ActionListener() {
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                int row = view.getSelectedRow();
-                if (row == -1) return;
-
-                String name = getWorkerName(row);
-                if (view.confirmDelete(name)) {
-                    model.remove(getWorkerAt(row));
-                    refreshTable();
-                    view.setStatus("Удалён: " + name);
-                }
+            public void actionPerformed(ActionEvent e) {
+                handleDelete();
             }
         });
 
         view.onGiveWork(new ActionListener() {
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 int row = view.getSelectedRow();
                 if (row != -1) {
                     view.openGiveWorkDialog(row);
@@ -238,14 +222,14 @@ public class MainController {
 
         view.onAllWork(new ActionListener() {
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 view.showInfo(model.doGroupWork());
             }
         });
 
         view.onFilter(new ActionListener() {
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 view.openFilterDialog();
             }
         });
@@ -275,6 +259,18 @@ public class MainController {
                 }
             }
         });
+    }
+
+    private void  handleDelete() {
+        int row = view.getSelectedRow();
+        if (row == -1) return;
+
+        String name = getWorkerName(row);
+        if (view.confirmDelete(name)) {
+            model.remove(getWorkerAt(row));
+            refreshTable();
+            view.setStatus("Удалён: " + name);
+        }
     }
 
     private void handleSearch() {

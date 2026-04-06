@@ -106,8 +106,7 @@ public class MainFrame extends JFrame {
     }
 
     public void openFilterDialog() {
-        FilterDialog dlg = new FilterDialog(this, controller);
-        dlg.setVisible(true);
+        new FilterDialog(this, controller).setVisible(true);
     }
 
 

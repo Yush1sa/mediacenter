@@ -4,6 +4,8 @@ import controller.MainController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GiveWorkDialog extends JDialog {
 
@@ -32,27 +34,47 @@ public class GiveWorkDialog extends JDialog {
         actions.setBorder(BorderFactory.createTitledBorder("Доступные действия"));
 
         JButton doWorkBtn = new JButton("Выполнить работу");
-        doWorkBtn.addActionListener(e -> log(controller.doWork(row)));
+        doWorkBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                log(controller.doWork(row));
+            }
+        });
         actions.add(doWorkBtn);
 
         String workerType = controller.getWorkerType(row);
 
         if (workerType.equals("Photographer")) {
             JButton styleBtn = new JButton("Снять в стиле: " + controller.getPhotoStyle(row));
-            styleBtn.addActionListener(e -> log(controller.shootPhotoStyle(row)));
+            styleBtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    log(controller.shootPhotoStyle(row));
+                }
+            });
             actions.add(styleBtn);
         }
 
         if (workerType.equals("Videographer")) {
             JButton droneBtn = new JButton("Снять с дрона");
             droneBtn.setEnabled(controller.hasDrone(row));
-            droneBtn.addActionListener(e -> log(controller.shootWithDrone(row)));
+            droneBtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    log(controller.shootWithDrone(row));
+                }
+            });
             actions.add(droneBtn);
         }
 
         if (workerType.equals("InformationWorker")) {
             JButton camBtn = new JButton("Выдать камеру");
-            camBtn.addActionListener(e -> log(controller.giveCamera(row)));
+            camBtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    log(controller.giveCamera(row));
+                }
+            });
             actions.add(camBtn);
         }
 

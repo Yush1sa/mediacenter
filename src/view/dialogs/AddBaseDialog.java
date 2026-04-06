@@ -4,6 +4,8 @@ import controller.InputValidator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public abstract class AddBaseDialog extends JDialog {
 
@@ -40,8 +42,19 @@ public abstract class AddBaseDialog extends JDialog {
         buttons.add(cancelBtn);
         add(buttons, BorderLayout.SOUTH);
 
-        okBtn.addActionListener(e -> onOk());
-        cancelBtn.addActionListener(e -> dispose());
+        okBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onOk();
+            }
+        });
+
+        cancelBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
 
         pack();
         setLocationRelativeTo(getOwner());

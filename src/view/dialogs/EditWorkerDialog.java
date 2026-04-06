@@ -5,6 +5,8 @@ import controller.MainController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class EditWorkerDialog extends JDialog {
@@ -16,11 +18,8 @@ public class EditWorkerDialog extends JDialog {
     private final JTextField ageField = new JTextField(5);
     private final JTextField experienceField = new JTextField(5);
 
-    // поля для фотографа
     private JTextField styleField;
-    // поля для видеографа
     private JCheckBox droneCheckBox;
-    // поля для инфо-работника
     private JCheckBox[] areaCheckBoxes;
 
     private final String workerType;
@@ -63,8 +62,19 @@ public class EditWorkerDialog extends JDialog {
         buttons.add(cancelBtn);
         add(buttons, BorderLayout.SOUTH);
 
-        saveBtn.addActionListener(e -> onSave());
-        cancelBtn.addActionListener(e -> dispose());
+        saveBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onSave();
+            }
+        });
+
+        cancelBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
     }
 
     private JPanel buildExtraPanel() {

@@ -5,6 +5,8 @@ import model.MediaWorker;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 public class FilterDialog extends JDialog {
@@ -26,9 +28,12 @@ public class FilterDialog extends JDialog {
         add(tabs, BorderLayout.CENTER);
 
         JButton resetBtn = new JButton("Показать всех");
-        resetBtn.addActionListener(e -> {
-            controller.applyFilter(controller.getAllWorkers());
-            dispose();
+        resetBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.applyFilter(controller.getAllWorkers());
+                dispose();
+            }
         });
         add(resetBtn, BorderLayout.SOUTH);
     }
@@ -37,13 +42,28 @@ public class FilterDialog extends JDialog {
         JPanel p = new JPanel(new GridLayout(3, 1, 5, 5));
 
         JButton btnPhoto = new JButton("Фотографы");
-        btnPhoto.addActionListener(e -> applyAndClose(controller.filterPhotographers()));
+        btnPhoto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                applyAndClose(controller.filterPhotographers());
+            }
+        });
 
         JButton btnVideo = new JButton("Видеографы");
-        btnVideo.addActionListener(e -> applyAndClose(controller.filterVideographers()));
+        btnVideo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                applyAndClose(controller.filterVideographers());
+            }
+        });
 
         JButton btnInfo = new JButton("Информ. работники");
-        btnInfo.addActionListener(e -> applyAndClose(controller.filterInfoWorkers()));
+        btnInfo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                applyAndClose(controller.filterInfoWorkers());
+            }
+        });
 
         p.add(btnPhoto);
         p.add(btnVideo);
@@ -56,36 +76,42 @@ public class FilterDialog extends JDialog {
         p.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JPanel ageRow = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JTextField minAge = new JTextField("0", 3);
-        JTextField maxAge = new JTextField("100", 3);
+        final JTextField minAge = new JTextField("0", 3);
+        final JTextField maxAge = new JTextField("100", 3);
         JButton ageBtn = new JButton("Фильтр по возрасту");
         ageRow.add(new JLabel("От:"));
         ageRow.add(minAge);
         ageRow.add(new JLabel("До:"));
         ageRow.add(maxAge);
         ageRow.add(ageBtn);
-        ageBtn.addActionListener(e -> {
-            try {
-                int min = Integer.parseInt(minAge.getText().trim());
-                int max = Integer.parseInt(maxAge.getText().trim());
-                applyAndClose(controller.filterByAge(min, max));
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Введите числа!");
+        ageBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int min = Integer.parseInt(minAge.getText().trim());
+                    int max = Integer.parseInt(maxAge.getText().trim());
+                    applyAndClose(controller.filterByAge(min, max));
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(FilterDialog.this, "Введите числа!");
+                }
             }
         });
 
         JPanel expRow = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JTextField expField = new JTextField("0", 3);
+        final JTextField expField = new JTextField("0", 3);
         JButton expBtn = new JButton("Фильтр по стажу");
         expRow.add(new JLabel("Мин. стаж:"));
         expRow.add(expField);
         expRow.add(expBtn);
-        expBtn.addActionListener(e -> {
-            try {
-                int minExp = Integer.parseInt(expField.getText().trim());
-                applyAndClose(controller.filterByExperience(minExp));
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Введите число!");
+        expBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int minExp = Integer.parseInt(expField.getText().trim());
+                    applyAndClose(controller.filterByExperience(minExp));
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(FilterDialog.this, "Введите число!");
+                }
             }
         });
 
@@ -93,7 +119,6 @@ public class FilterDialog extends JDialog {
         p.add(expRow);
         return p;
     }
-
 
     private void applyAndClose(List<MediaWorker> result) {
         controller.applyFilter(result);
