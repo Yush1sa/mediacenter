@@ -22,7 +22,7 @@ public class InformationWorker extends MediaWorker {
     }
 
     public String giveCamera() {
-        return getName() + " выдал камеру на мероприятие";
+        return "Инфо-работник " + getName() + " выдал камеру на мероприятие";
     }
 
     @Override

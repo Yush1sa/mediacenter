@@ -17,7 +17,7 @@ public class Photographer extends MediaWorker {
     }
 
     public String shootPhotoStyle() {
-        return getName() + " сделал фото в стиле: " + photoStyle;
+        return "Фотограф " + getName() + " сделал фото в стиле: " + photoStyle;
     }
 
     @Override

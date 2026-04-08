@@ -12,6 +12,11 @@ public class GiveWorkDialog extends JDialog {
     private final MainController controller;
     private final int row;
     private JTextArea logArea;
+    JLabel infoLabel;
+    JPanel actions;
+    JButton doWorkBtn;
+    JButton extraBtn;
+
 
     public GiveWorkDialog(Frame owner, MainController controller, int row) {
         super(owner, "Выдать работу: " + controller.getWorkerName(row), true);
@@ -19,21 +24,21 @@ public class GiveWorkDialog extends JDialog {
         this.row = row;
         initComponents();
         pack();
-        setMinimumSize(new Dimension(350, 250));
+        setMinimumSize(new Dimension(400, 250));
         setLocationRelativeTo(owner);
     }
 
     private void initComponents() {
         setLayout(new BorderLayout(0, 10));
 
-        JLabel infoLabel = new JLabel(controller.getWorkerDisplayName(row));
+        infoLabel = new JLabel(controller.getWorkerDisplayName(row));
         infoLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 5, 10));
         add(infoLabel, BorderLayout.NORTH);
 
-        JPanel actions = new JPanel(new GridLayout(0, 1, 5, 5));
+        actions = new JPanel(new GridLayout(0, 1, 5, 5));
         actions.setBorder(BorderFactory.createTitledBorder("Доступные действия"));
 
-        JButton doWorkBtn = new JButton("Выполнить работу");
+        doWorkBtn = new JButton("Выполнить работу");
         doWorkBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -44,38 +49,9 @@ public class GiveWorkDialog extends JDialog {
 
         String workerType = controller.getWorkerType(row);
 
-        if (workerType.equals("Photographer")) {
-            JButton styleBtn = new JButton("Снять в стиле: " + controller.getPhotoStyle(row));
-            styleBtn.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    log(controller.shootPhotoStyle(row));
-                }
-            });
-            actions.add(styleBtn);
-        }
-
-        if (workerType.equals("Videographer")) {
-            JButton droneBtn = new JButton("Снять с дрона");
-            droneBtn.setEnabled(controller.hasDrone(row));
-            droneBtn.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    log(controller.shootWithDrone(row));
-                }
-            });
-            actions.add(droneBtn);
-        }
-
-        if (workerType.equals("InformationWorker")) {
-            JButton camBtn = new JButton("Выдать камеру");
-            camBtn.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    log(controller.giveCamera(row));
-                }
-            });
-            actions.add(camBtn);
+        extraBtn = createExtraActionButton(workerType);
+        if (extraBtn != null) {
+            actions.add(extraBtn);
         }
 
         add(actions, BorderLayout.CENTER);
@@ -89,5 +65,44 @@ public class GiveWorkDialog extends JDialog {
 
     private void log(String msg) {
         logArea.append("• " + msg + "\n");
+    }
+
+    private JButton createExtraActionButton(String workerType) {
+
+        if ("Photographer".equals(workerType)) {
+            JButton btn = new JButton("Снять в стиле: " + controller.getPhotoStyle(row));
+            btn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    log(controller.shootPhotoStyle(row));
+                }
+            });
+            return btn;
+        }
+
+        if ("Videographer".equals(workerType)) {
+            JButton btn = new JButton("Снять с дрона");
+            btn.setEnabled(controller.hasDrone(row));
+            btn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    log(controller.shootWithDrone(row));
+                }
+            });
+            return btn;
+        }
+
+        if ("InformationWorker".equals(workerType)) {
+            JButton btn = new JButton("Выдать камеру");
+            btn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    log(controller.giveCamera(row));
+                }
+            });
+            return btn;
+        }
+
+        return null;
     }
 }

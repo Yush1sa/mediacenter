@@ -13,6 +13,15 @@ public class FilterDialog extends JDialog {
 
     private final MainController controller;
 
+    JTabbedPane tabs;
+    JPanel panelBtn;
+    JButton resetBtn;
+    JButton btnPhoto;
+    JButton btnVideo;
+    JButton btnInfo;
+
+
+
     public FilterDialog(Frame owner, MainController controller) {
         super(owner, "Фильтры", true);
         this.controller = controller;
@@ -22,11 +31,11 @@ public class FilterDialog extends JDialog {
     }
 
     private void initComponents() {
-        JTabbedPane tabs = new JTabbedPane();
+        tabs = new JTabbedPane();
         tabs.addTab("Тип", buildTypePanel());
         add(tabs, BorderLayout.CENTER);
 
-        JButton resetBtn = new JButton("Показать всех");
+        resetBtn = new JButton("Показать всех");
         resetBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -38,9 +47,9 @@ public class FilterDialog extends JDialog {
     }
 
     private JPanel buildTypePanel() {
-        JPanel p = new JPanel(new GridLayout(3, 1, 5, 5));
+        panelBtn = new JPanel(new GridLayout(3, 1, 5, 5));
 
-        JButton btnPhoto = new JButton("Фотографы");
+        btnPhoto = new JButton("Фотографы");
         btnPhoto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,7 +57,7 @@ public class FilterDialog extends JDialog {
             }
         });
 
-        JButton btnVideo = new JButton("Видеографы");
+        btnVideo = new JButton("Видеографы");
         btnVideo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -56,7 +65,7 @@ public class FilterDialog extends JDialog {
             }
         });
 
-        JButton btnInfo = new JButton("Информ. работники");
+        btnInfo = new JButton("Информ. работники");
         btnInfo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,10 +73,10 @@ public class FilterDialog extends JDialog {
             }
         });
 
-        p.add(btnPhoto);
-        p.add(btnVideo);
-        p.add(btnInfo);
-        return p;
+        panelBtn.add(btnPhoto);
+        panelBtn.add(btnVideo);
+        panelBtn.add(btnInfo);
+        return panelBtn;
     }
 
     private void applyAndClose(List<MediaWorker> result) {
