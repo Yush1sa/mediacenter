@@ -1,6 +1,5 @@
 package view;
 
-import controller.MainController;
 import view.dialogs.*;
 
 import javax.swing.*;
@@ -11,9 +10,6 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 public class MainFrame extends JFrame {
-
-    private final MainController controller;
-
     private JToolBar toolbar = new JToolBar();
     private JButton addBtn = new JButton("Добавить");
     private JButton editBtn = new JButton("Изменить");
@@ -33,9 +29,8 @@ public class MainFrame extends JFrame {
 
     private JLabel statusLabel = new JLabel("Готово");
 
-    public MainFrame(MainController controller) {
+    public MainFrame() {
         super("Студенческий медиацентр");
-        this.controller = controller;
         initComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
@@ -83,32 +78,6 @@ public class MainFrame extends JFrame {
         deleteBtn.setEnabled(false);
         giveWorkBtn.setEnabled(false);
     }
-
-
-    public void openAddPhotographerDialog() {
-        new AddPhotographerDialog(this, controller).setVisible(true);
-    }
-
-    public void openAddVideographerDialog() {
-        new AddVideographerDialog(this, controller).setVisible(true);
-    }
-
-    public void openAddInfoWorkerDialog() {
-        new AddInfoWorkerDialog(this, controller).setVisible(true);
-    }
-
-    public void openEditDialog(int row) {
-        new EditWorkerDialog(this, controller, row).setVisible(true);
-    }
-
-    public void openGiveWorkDialog(int row) {
-        new GiveWorkDialog(this, controller, row).setVisible(true);
-    }
-
-    public void openFilterDialog() {
-        new FilterDialog(this, controller).setVisible(true);
-    }
-
 
     public void onAddPhotographer(ActionListener l) {
         addPhotoItem.addActionListener(l);

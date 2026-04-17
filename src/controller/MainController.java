@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import view.MainFrame;
+import view.dialogs.*;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -167,21 +168,21 @@ public class MainController {
         view.onAddPhotographer(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                view.openAddPhotographerDialog();
+                new AddPhotographerDialog(MainController.this.view, MainController.this).setVisible(true);
             }
         });
 
         view.onAddVideographer(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                view.openAddVideographerDialog();
+                new AddVideographerDialog(MainController.this.view, MainController.this).setVisible(true);;
             }
         });
 
         view.onAddInfoWorker(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                view.openAddInfoWorkerDialog();
+                new AddInfoWorkerDialog(MainController.this.view, MainController.this).setVisible(true);
             }
         });
 
@@ -190,7 +191,7 @@ public class MainController {
             public void actionPerformed(ActionEvent e) {
                 int row = view.getSelectedRow();
                 if (row != -1) {
-                    view.openEditDialog(row);
+                    new EditWorkerDialog(MainController.this.view, MainController.this, row).setVisible(true);
                 }
             }
         });
@@ -207,7 +208,7 @@ public class MainController {
             public void actionPerformed(ActionEvent e) {
                 int row = view.getSelectedRow();
                 if (row != -1) {
-                    view.openGiveWorkDialog(row);
+                    new GiveWorkDialog(MainController.this.view, MainController.this, row).setVisible(true);
                 }
             }
         });
@@ -222,7 +223,7 @@ public class MainController {
         view.onFilter(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                view.openFilterDialog();
+                new FilterDialog(MainController.this.view, MainController.this).setVisible(true);
             }
         });
 

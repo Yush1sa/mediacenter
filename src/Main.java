@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         StudentMediaCenter model = new StudentMediaCenter();
         MainController controller = new MainController(model);
-        MainFrame view = new MainFrame(controller);
+        MainFrame view = new MainFrame();
         controller.setView(view);
         controller.init();
         view.setVisible(true);
